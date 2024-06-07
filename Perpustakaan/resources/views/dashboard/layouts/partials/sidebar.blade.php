@@ -15,7 +15,13 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">@auth
+                        {{ Auth::user()->name }}
+                    @endauth
+                    @guest
+                        Guest
+                    @endguest
+                </a>
             </div>
         </div>
 
@@ -107,16 +113,23 @@
                 </li>
                 <li class="nav-header">Account</li>
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
+                    @auth
+                        <a class="nav-link" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        Logout
-                    </a>
+                            Logout
+                        </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="nav-link">
+                            Log in
+                        </a>
+                    @endauth
                 </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
