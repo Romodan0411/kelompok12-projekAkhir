@@ -60,6 +60,14 @@
                         </p>
                     </a>
                 </li>
+                                <li class="nav-item">
+                    <a href="/categori" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Kategori
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -70,7 +78,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="../../index.html" class="nav-link">
+                            <a href="/member" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Member</p>
                             </a>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\CategoriController;
 
 
 /*
@@ -19,6 +20,8 @@ use App\Http\Controllers\MemberController;
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::resource('/member', MemberController::class);
+
+Route::resource('/categori', CategoriController::class);
 
 Auth::routes();
 
