@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BukuController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\CategoriController;
 
@@ -33,3 +34,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('buku', BukuController::class);
