@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\MemberController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,8 @@ use App\Http\Controllers\BukuController;
 */
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+
+Route::resource('/member', MemberController::class);
 
 Auth::routes();
 
