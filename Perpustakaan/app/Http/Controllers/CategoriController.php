@@ -12,9 +12,13 @@ class CategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $categori = Categori::all();
+
+        if ($request->has('search')) {
+            $categori = Categori::where('nama', 'like', '%' . $request->search . '%')->get();
+        }
 
         return view('categori.tampil', ['categori' => $categori]);
     }

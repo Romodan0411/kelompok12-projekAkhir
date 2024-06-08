@@ -9,9 +9,24 @@
 @endsection
 
 @section('content')
-    @auth
-        <a href="/categori/create" class="btn btn-sm btn-primary">Tambah</a>
-    @endauth
+    <div class="row mb-3">
+        <div class="col-sm">
+            @auth
+                <a href="/categori/create" class="btn btn-sm btn-primary">Tambah</a>
+            @endauth
+        </div>
+        <div class="col-sm">
+            <form action="{{ route('categori.index') }}" method="GET">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Cari Kategori"
+                        aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-primary" type="submit" id="button-addon2"><i
+                            class="fas fa-search"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <table class="table table-striped table-bordered">
         <thead>

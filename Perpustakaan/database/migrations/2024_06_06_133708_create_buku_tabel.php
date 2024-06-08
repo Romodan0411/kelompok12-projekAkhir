@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string("judul");
             $table->string("pengarang");
             $table->text('deskripsi');
-            $table->string("cover");
+            $table->string("cover")->nullable();
             $table->timestamps();
         });
     }

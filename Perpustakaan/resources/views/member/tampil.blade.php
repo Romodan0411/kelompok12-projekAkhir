@@ -8,12 +8,16 @@
     Member
 @endsection
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('/lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+@endpush
+
 @section('content')
     @auth
         <a href="/member/create" class="btn btn-sm btn-primary mb-2">Tambah</a>
     @endauth
 
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" id="member">
         <thead>
             <tr>
                 <th scope="col">No</th>
@@ -53,3 +57,13 @@
         </tbody>
     </table>
 @endsection
+
+@push('js')
+    <script src="{{ asset('lte/plugins/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('lte/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+    <script>
+        $(function() {
+            $("#member").DataTable();
+        });
+    </script>
+@endpush

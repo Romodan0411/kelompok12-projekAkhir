@@ -12,9 +12,13 @@ class BukuController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index()
+    public function index(Request $request)
     {
         $buku = Buku::all();
+
+        if ($request->has('search')) {
+            $buku = Buku::where('judul', 'like', '%' . $request->search . '%')->get();
+        }
 
         return view('buku.tampil', ['buku' => $buku]);
     }
@@ -114,6 +118,10 @@ class BukuController extends Controller
      */
     public function destroy(string $id)
     {
+        $data = Buku::find($id);
+        if ($data->cover && file_exists(public_path('img/buku/' . $data->cover))) {
+            unlink(public_path('img/buku/' . $data->cover));
+        }
         Buku::where('id', $id)->delete();
 
         return redirect('/buku');
