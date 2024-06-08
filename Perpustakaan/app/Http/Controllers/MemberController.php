@@ -15,7 +15,7 @@ class MemberController extends Controller
     {
         $member = Member::all();
 
-        return view('member.tampil',['member' => $member]);
+        return view('member.tampil', ['member' => $member]);
     }
 
     /**
@@ -23,7 +23,7 @@ class MemberController extends Controller
      */
     public function create()
     {
-        return view ('member.tambah');
+        return view('member.tambah');
     }
 
     /**

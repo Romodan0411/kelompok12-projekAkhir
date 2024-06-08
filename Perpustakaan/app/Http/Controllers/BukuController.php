@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Buku;
+use App\Models\Categori;
 
 class BukuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    public function index(Request $request)
     {
         $buku = Buku::all();
+
+        if ($request->has('search')) {
+            $buku = Buku::where('judul', 'like', '%' . $request->search . '%')->get();
+        }
 
         return view('buku.tampil', ['buku' => $buku]);
     }
@@ -22,7 +28,8 @@ class BukuController extends Controller
      */
     public function create()
     {
-        return view('buku.tambah');
+        $data = Categori::all();
+        return view('buku.tambah', compact('data'));
     }
 
     /**
@@ -31,21 +38,24 @@ class BukuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'pengarang' => 'required|string|max:255',
-            
-        ],
-        [
-            'judul.required' =>'judul harus diisi tidak boleh kosong',
-            'pengarang.required' =>'pengarang harus diisi tidak boleh kosong',
+            'judul' => 'required',
+            'pengarang' => 'required',
+            'deskripsi' => 'required',
+            'cover' => 'nullable',
         ]);
-
-        $buku = new Buku;
- 
-        $buku->judul = $request->input('judul');
-        $buku->pengarang = $request->input('pengarang');
-        $buku->save();
- 
+        $data = new buku();
+        if ($request->hasFile('cover')) {
+            $file = $request->file('cover');
+            $extention = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extention;
+            $file->move(public_path('img/buku'), $filename);
+            $data->cover = $filename;
+        }
+        $data->judul = $request->judul;
+        $data->pengarang = $request->pengarang;
+        $data->deskripsi = $request->deskripsi;
+        $data->save();
+        $data->kategori()->sync($request->kategori);
         return redirect('/buku')->with('success', 'Buku berhasil ditambahkan');
     }
 
@@ -63,9 +73,10 @@ class BukuController extends Controller
      */
     public function edit(string $id)
     {
-        
+
         $buku = Buku::find($id);
-        return view('buku.edit', ['buku' => $buku]);
+        $data2 = Categori::all();
+        return view('buku.edit', compact('buku', 'data2'));
     }
 
     /**
@@ -73,25 +84,32 @@ class BukuController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $data = Buku::find($id);
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'pengarang' => 'required|string|max:255',
-        ],
-        [
-            'judul.required' =>'judul harus diisi tidak boleh kosong',
-            'pengarang.required' =>'pengarang harus diisi tidak boleh kosong',
+            'judul' => 'required',
+            'pengarang' => 'required',
+            'deskripsi' => 'required',
+            'cover' => 'nullable',
         ]);
 
+        if ($request->hasFile('cover')) {
+            // hapus cover lama
+            if ($data->cover && file_exists(public_path('img/buku/' . $data->cover))) {
+                unlink(public_path('img/buku/' . $data->cover));
+            }
 
-        Buku::where('id', $id)
-        ->update(
-            [
-                'judul' => $request->input('judul'),
-                'pengarang' => $request->input('pengarang'),
-            ]
-            );
-
-            return redirect('/buku');
+            $file = $request->file('cover');
+            $extention = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extention;
+            $file->move(public_path('img/buku'), $filename);
+            $data->cover = $filename;
+        }
+        $data->judul = $request->judul;
+        $data->pengarang = $request->pengarang;
+        $data->deskripsi = $request->deskripsi;
+        $data->update();
+        $data->kategori()->sync($request->kategori);
+        return redirect('/buku')->with('success', 'Buku berhasil diubah');
 
     }
 
@@ -100,6 +118,10 @@ class BukuController extends Controller
      */
     public function destroy(string $id)
     {
+        $data = Buku::find($id);
+        if ($data->cover && file_exists(public_path('img/buku/' . $data->cover))) {
+            unlink(public_path('img/buku/' . $data->cover));
+        }
         Buku::where('id', $id)->delete();
 
         return redirect('/buku');

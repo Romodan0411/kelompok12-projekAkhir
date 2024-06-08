@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Categori;
+use App\Models\Buku;
 
 class CategoriController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $categori = Categori::all();
 
-        return view('categori.tampil',['categori' => $categori]);
+        if ($request->has('search')) {
+            $categori = Categori::where('nama', 'like', '%' . $request->search . '%')->get();
+        }
+
+        return view('categori.tampil', ['categori' => $categori]);
     }
 
     /**
@@ -23,7 +28,7 @@ class CategoriController extends Controller
      */
     public function create()
     {
-        return view ('categori.tambah');
+        return view('categori.tambah');
     }
 
     /**
@@ -34,16 +39,14 @@ class CategoriController extends Controller
         $request->validate(
             [
                 'nama' => 'required|min:5',
-            ],
-            [
-                'nama.required' => 'Nama tidak boleh kosong!',
-
+                'deskripsi' => 'required',
             ]
         );
 
         $categori = new Categori;
 
         $categori->nama = $request->input('nama');
+        $categori->deskripsi = $request->input('deskripsi');
 
         $categori->save();
 
@@ -78,9 +81,7 @@ class CategoriController extends Controller
         $request->validate(
             [
                 'nama' => 'required|min:5',
-            ],
-            [
-                'nama.required' => 'Nama tidak boleh kosong!',
+                'deskripsi' => 'required',
             ]
         );
 
@@ -88,6 +89,7 @@ class CategoriController extends Controller
             ->update(
                 [
                     'nama' => $request->input('nama'),
+                    'deskripsi' => $request->input('deskripsi'),
                 ]
             );
         return redirect('/categori');
