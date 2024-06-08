@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\CategoriController;
+use App\Http\Controllers\PeminjamanController;
 
 
 /*
@@ -23,6 +24,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 Route::resource('/member', MemberController::class);
 
 Route::resource('/categori', CategoriController::class);
+Route::resource('/peminjaman', PeminjamanController::class);
 
 Auth::routes();
 
