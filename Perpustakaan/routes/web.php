@@ -25,6 +25,7 @@ Route::resource('/member', MemberController::class);
 
 Route::resource('/categori', CategoriController::class);
 Route::resource('/peminjaman', PeminjamanController::class);
+Route::resource('buku', BukuController::class);
 
 Auth::routes();
 
@@ -37,4 +38,4 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('buku', BukuController::class);
+
