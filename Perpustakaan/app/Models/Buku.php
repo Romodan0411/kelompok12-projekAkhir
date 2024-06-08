@@ -18,4 +18,9 @@ class Buku extends Model
     {
         return $this->belongsToMany(Categori::class, 'buku_categori', 'buku_id', 'categori_id');
     }
+
+    public function peminjaman()
+    {
+        return $this->hasOne(Peminjaman::class, 'buku_id');
+    }
 }

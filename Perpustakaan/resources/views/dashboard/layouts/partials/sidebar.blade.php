@@ -1,8 +1,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../../" class="brand-link">
-        <img src="{{ asset('/lte/dist/img/buku.jpg') }}" alt="AdminLTE Logo"
-            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="{{ asset('/lte/dist/img/buku.jpg') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
         <span class="brand-text font-weight-light">Perpustakaan</span>
     </a>
 
@@ -44,27 +44,11 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               <li class="nav-item">
-                    <a href="/" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                        </p>
-                    </a>
-                </li>
                 <li class="nav-item">
-                    <a href="/buku" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <a href="{{ route('dashboard.index') }}" class="nav-link">
+                        <i class="nav-icon fa fa-home"></i>
                         <p>
-                            Buku
-                        </p>
-                    </a>
-                </li>
-                                <li class="nav-item">
-                    <a href="/categori" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Kategori
+                            Home
                         </p>
                     </a>
                 </li>
@@ -78,43 +62,59 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ route('buku.index') }}" class="nav-link">
+                                <i class="fa fa-book nav-icon"></i>
+                                <p>Buku</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('categori.index') }}" class="nav-link">
+                                <i class="fa fa-globe nav-icon"></i>
+                                <p>Kategori</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="/member" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fa fa-users nav-icon"></i>
                                 <p>Member</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="../../index2.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                            <a href="{{ route('peminjaman.index') }}" class="nav-link">
+                                <i class="fa fa-address-book nav-icon"></i>
                                 <p>Peminjaman</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="../../index3.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Detail Peminjaman</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-                <li class="nav-header">Account</li>
-                <li class="nav-item">
-                    @auth
-                        <a class="nav-link" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
+            </ul>
+            <li class="nav-item">
+                <a href="{{ route('about') }}" class="nav-link">
+                    <i class="nav-icon fa fa-desktop"></i>
+                    <p>
+                        About
+                    </p>
+                </a>
+            </li>
+            </li>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}" class="nav-link">
-                            Log in
-                        </a>
-                    @endauth
-                </li>
+            <li class="nav-header">Account</li>
+            <li class="nav-item">
+                @auth
+                    <a class="nav-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="nav-link">
+                        Log in
+                    </a>
+                @endauth
+            </li>
 
             </ul>
         </nav>

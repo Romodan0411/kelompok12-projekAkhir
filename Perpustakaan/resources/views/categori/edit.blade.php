@@ -1,5 +1,13 @@
 @extends('dashboard.layouts.main')
 
+@section('main-title')
+    Kategori
+@endsection
+
+@section('title')
+    Edit Kategori
+@endsection
+
 @section('content')
     <form method="POST" action="/categori/{{ $categori->id }}">
         {{-- Validation --}}

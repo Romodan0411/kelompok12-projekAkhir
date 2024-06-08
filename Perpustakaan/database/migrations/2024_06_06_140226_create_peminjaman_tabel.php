@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->date("tanggal_pengembalian")->nullable();
             $table->unsignedBigInteger("member_id");
             $table->foreign('member_id')->references('id')->on('member')->onDelete('cascade');
+            $table->unsignedBigInteger("buku_id");
+            $table->foreign('buku_id')->references('id')->on('buku')->onDelete('cascade');
             $table->timestamps();
         });
     }

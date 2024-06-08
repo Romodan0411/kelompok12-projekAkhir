@@ -19,26 +19,28 @@ use App\Http\Controllers\PeminjamanController;
 |
 */
 
+Auth::routes();
+Route::get('/about', [DashboardController::class, 'about'])->name('about');
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
-Route::resource('/member', MemberController::class);
-
-Route::resource('/categori', CategoriController::class);
-Route::resource('/peminjaman', PeminjamanController::class);
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
 
 Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
 Route::get('/buku/{id}/show', [BukuController::class, 'show'])->name('buku.show');
 
+Route::get('/member', [MemberController::class, 'index'])->name('member.index');
+Route::get('/member/{id}/show', [MemberController::class, 'show'])->name('member.show');
+
+Route::get('/categori', [CategoriController::class, 'index'])->name('categori.index');
+Route::get('/categori/{id}/show', [CategoriController::class, 'show'])->name('categori.show');
+
+Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
+Route::get('/peminjaman/{id}/show', [PeminjamanController::class, 'show'])->name('peminjaman.show');
+
 Route::middleware('auth')->group(function () {
     Route::resource('buku', BukuController::class)->except(['index', 'show']);
+    Route::resource('/member', MemberController::class)->except(['index', 'show']);
+    Route::resource('/categori', CategoriController::class)->except(['index', 'show']);
+    Route::resource('/peminjaman', PeminjamanController::class)->except(['index', 'show']);
 });
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 

@@ -1,5 +1,13 @@
 @extends('dashboard.layouts.main')
 
+@section('main-title')
+    Buku
+@endsection
+
+@section('title')
+    Daftar Buku
+@endsection
+
 @section('content')
     <div class="card">
         <div class="card-header">
