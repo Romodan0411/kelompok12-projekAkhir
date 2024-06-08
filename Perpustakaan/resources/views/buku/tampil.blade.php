@@ -1,51 +1,63 @@
 @extends('dashboard.layouts.main')
 
 @section('content')
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">data Buku</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            @auth
+                <a href="{{ route('buku.create') }}" class="btn btn-primary mb-2">Tambah Buku</a>
+            @endauth
+            @if (session('success'))
+                <div class="alert alert-success mt-2">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <div class="row row-cols-4">
 
-    <a href="/buku/create" class="btn btn-sm btn-primary">Tambah Data</a>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Gambar</th>
-                <th scope="col">Judul</th>
-                <th scope="col">Pengarang</th>
-                <th scope="col">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($buku as $key => $item)
-                <tr>
-                    <th scope="row">{{ $key + 1 }}</th>
-                    <td>
-                        @if($item->gambar)
-                        <div class="image">
-                            <img src="{{ asset($item->gambar) }}" class="img-circle elevation-2"
-                                alt="{{ $item->judul }} Image">
+                @forelse ($buku as $d)
+                    <div class="col">
+                        <div class="card">
+                            <img src="{{ asset('img/buku/' . $d->cover) }}" alt="card images" class="card-img shadow border"
+                                width="350" height="300">
+                            <div class="card-body">
+                                <h4>{{ $d->judul }}</h4>
+                                <hr>
+                                <ul>
+                                    <li class="card-text">
+                                        Kategori :
+                                        @foreach ($d->kategori as $k)
+                                            {{ $k->nama }}{{ $loop->last ? '' : ', ' }}
+                                        @endforeach
+                                    </li>
+                                    <li class="card-text">
+                                        Pengarang : {{ $d->pengarang }}
+                                    </li>
+                                </ul>
+                                <a href="{{ route('buku.show', $d->id) }}" class="btn btn-primary">Detail</a>
+                                @auth
+                                    <a href="{{ route('buku.edit', $d->id) }}" class="btn btn-warning">Edit</a>
+                                    <form action="{{ route('buku.destroy', $d->id) }}" method="post" class="d-inline">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Hapus</button>
+                                    </form>
+                                @endauth
+                            </div>
                         </div>
-                        @else
-                            Tidak ada gambar
-                        @endif
-                    </td>
-                    <td>{{ $item->judul }}</td>
-                    <td>{{ $item->pengarang }}</td>
-                    <td>
-                        <form action="/buku/{{$item->id}}" method="POST">
-                            <a href="/buku/{{$item->id}}" class="btn btn-info btn-sm">Detail</a>
-                            <a href="/buku/{{$item->id}}/edit" class="btn btn-warning btn-sm">Edit</a>
-                            @csrf
-                            @method("Delete")
-                            <input type="submit" class="btn btn-danger btn-sm" value="Delete">
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="5" class="text-center">Buku belum ada</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-
+                    </div>
+                @empty
+                    <h3>data buku kosong</h3>
+                @endforelse
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
 @endsection
+
+@push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush

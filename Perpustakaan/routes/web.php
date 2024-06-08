@@ -29,10 +29,14 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
-Route::middleware('auth')->group(function () {
 
+Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
+Route::get('/buku/{id}/show', [BukuController::class, 'show'])->name('buku.show');
+
+Route::middleware('auth')->group(function () {
+    Route::resource('buku', BukuController::class)->except(['index', 'show']);
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('buku', BukuController::class);
+
