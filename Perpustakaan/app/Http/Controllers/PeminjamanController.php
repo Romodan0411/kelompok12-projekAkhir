@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Peminjaman;
+use App\Models\Member;
 
 class PeminjamanController extends Controller
 {
@@ -12,7 +14,9 @@ class PeminjamanController extends Controller
      */
     public function index()
     {
-        //
+        $peminjaman = Peminjaman::all();
+
+        return view('peminjaman.tampil',['peminjaman' => $peminjaman]);
     }
 
     /**
@@ -20,7 +24,8 @@ class PeminjamanController extends Controller
      */
     public function create()
     {
-        //
+        $member = Member::get();
+        return view ('peminjaman.tambah', ['member'=> $member]);
     }
 
     /**
@@ -28,7 +33,30 @@ class PeminjamanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(
+            [
+                'tanggal_pinjaman' => 'required',
+                'tanggal_pengembalian' => 'required',
+                'member_id' => 'required',
+                
+            ],
+            [
+                'tanggal_pinjaman.required' => 'Tanggal tidak boleh kosong!',
+                'tanggal_pengembalian.required' => 'Tanggal tidak boleh kosong!',
+                'member_id.required' => 'Member Id tidak boleh kosong!',
+                
+            ]
+        );
+
+        $peminjaman = new Peminjaman;
+
+        $peminjaman->tanggal_pinjaman = $request->input('tanggal_pinjaman');
+        $peminjaman->tanggal_pengembalian = $request->input('tanggal_pengembalian');
+        $peminjaman->member_id = $request->input('member_id');
+
+        $peminjaman->save();
+
+        return redirect('/peminjaman');
     }
 
     /**
@@ -36,7 +64,9 @@ class PeminjamanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $peminjaman = Peminjaman::find($id);
+
+        return view('peminjaman.detail', ['peminjaman' => $peminjaman]);
     }
 
     /**
@@ -44,7 +74,10 @@ class PeminjamanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $peminjaman = Peminjaman::find($id);
+        $member = Member::get();
+
+        return view('peminjaman.edit', ['peminjaman' => $peminjaman, 'member'=>$member]);
     }
 
     /**
@@ -52,7 +85,31 @@ class PeminjamanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate(
+            [
+                'tanggal_pinjaman' => 'required',
+                'tanggal_pengembalian' => 'required',
+                'member_id' => 'required',
+                
+            ],
+            [
+                'tanggal_pinjaman.required' => 'Tanggal tidak boleh kosong!',
+                'tanggal_pengembalian.required' => 'Tanggal tidak boleh kosong!',
+                'member_id.required' => 'Member Id tidak boleh kosong!',
+                
+            ]
+        );
+
+        Peminjaman::where('id', $id)
+            ->update(
+                [
+                    'tanggal_pinjaman' => $request->input('tanggal_pinjaman'),
+                    'tanggal_pengembalian' => $request->input('tanggal_pengembalian'),
+                    'member_id' => $request->input('member_id'),
+                    
+                ]
+            );
+        return redirect('/peminjaman');
     }
 
     /**
@@ -60,6 +117,8 @@ class PeminjamanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Peminjaman::where('id', $id)->delete();
+
+        return redirect('/peminjaman');
     }
 }
