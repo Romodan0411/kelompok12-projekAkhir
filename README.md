@@ -18,3 +18,5 @@ Web Manajemen Perpustakaan
 ![Alt text](ERD.png)
 
 ## Link Video
+
+Link Demo Aplikasi : https://youtu.be/fJwqUvzokW4
